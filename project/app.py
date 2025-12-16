@@ -1,5 +1,4 @@
 import query
-
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 
@@ -33,7 +32,7 @@ async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.get("/api/hello/{domain}")
+@app.get("/api/v1/{domain}")
 async def read_api_data(domain: str):
     try:
         result = await query.bulk_lookup_resolver(domain)
