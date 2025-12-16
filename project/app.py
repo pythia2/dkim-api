@@ -1,7 +1,5 @@
-import asyncio
-
-import dns
 import query
+
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 
@@ -47,13 +45,13 @@ async def read_api_data(domain: str):
                 # for y, z in x.items():
                 #     print(f"{y}:{z}")
         keys_found = len(data)
-        response1 = DKIMResponse("success", 200, keys_found, domain, data)
-        return response1
+        response = DKIMResponse("success", 200, keys_found, domain, data)
+        return response
     except Exception as e:
         return e
 
 
-response = {
+response1 = {
     "status": "success",
     "code": 200,
     "dkim_keys_found": 5,
