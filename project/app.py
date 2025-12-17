@@ -7,17 +7,6 @@ app = FastAPI()
 # Mount the templates directory
 templates = Jinja2Templates(directory="templates")
 
-success_response = {
-    "status": "success",
-    "code": 200,
-    "dkim_keys_found": None,
-    "message": "hello world",
-    "domain": "kalf.me",
-    "data": [],
-    "meta": {"timestamp": "2023-10-27T10:00:00Z", "request_id": "req_8923749823"},
-}
-
-
 class DKIMResponse:
     def __init__(self, status: str, code: int, keys_found, domain: str, data: list):
         self.status = status
@@ -40,9 +29,6 @@ async def read_api_data(domain: str):
         for x in result:
             if x:
                 data.append(x)
-
-                # for y, z in x.items():
-                #     print(f"{y}:{z}")
         keys_found = len(data)
         response = DKIMResponse("success", 200, keys_found, domain, data)
         return response
@@ -50,11 +36,10 @@ async def read_api_data(domain: str):
         return e
 
 
-response1 = {
+example_response = {
     "status": "success",
     "code": 200,
     "dkim_keys_found": 5,
-    "message": "hello world",
     "domain": "kalf.me",
     "data": [
         {
@@ -78,20 +63,3 @@ response1 = {
     ],
     "meta": {"timestamp": "2023-10-27T10:00:00Z", "request_id": "req_8923749823"},
 }
-
-
-# # Route for a JSON API endpoint
-# @app.route("/api/v1/dkim-key-search")
-# async def api_hello():
-#     logger.info("Handling request to the root endpoint")
-
-#     results = await query.bulk_lookup_resolver()
-#     logger.info(results)
-
-#     message = {
-#         "message": "Hello World from Flask API!",
-#         "message": [
-#             {"one": "Hello World from Flask API!", "two": "Hello World from Flask API!"}
-#         ],
-#     }
-#     return jsonify(message)
