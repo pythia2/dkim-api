@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dkim-api"
+version = "0.1.0"
+dependencies = [
+    "fastapi==0.127.0",
+    "uvicorn==0.40.0",
+    "jinja2==3.1.6",
+    "dnspython==2.8.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pytest",
+]

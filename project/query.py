@@ -3,13 +3,25 @@ import asyncio
 import dns.asyncresolver
 from dkim_selectors import SELECTORS
 
-nameservers = ["8.8.8.8", "1.1.1.1"]
+
+NAMESERVERS = ["8.8.8.8", "1.1.1.1"]
+TIMEOUT = 2
+
+
+async def gather_dns_results(domain):
+    resolver = dns.asyncresolver.Resolver(configure=False)
+    resolver.nameservers = NAMESERVERS
+    resolver.timeout = TIMEOUT
+
+    tasks = [async_resolve_dkim(selector, domain, resolver) for selector in SELECTORS]
+    results = await asyncio.gather(*tasks)
+
+    return results
 
 
 async def async_resolve_dkim(selector, domain, resolver):
     qname = f"{selector}._domainkey.{domain}"
     try:
-        # Resolver is pre-configured with nameservers
         answer = await resolver.resolve(qname, "TXT")
         if answer:
             if answer.chaining_result.cnames:
@@ -40,17 +52,5 @@ async def async_resolve_dkim(selector, domain, resolver):
                     "record": record,
                 }
 
-        # return None
     except Exception as e:
         return None
-
-
-async def bulk_lookup_resolver(domain):
-    resolver = dns.asyncresolver.Resolver(configure=False)
-    resolver.nameservers = nameservers
-    resolver.timeout = 2
-
-    tasks = [async_resolve_dkim(selector, domain, resolver) for selector in SELECTORS]
-    results = await asyncio.gather(*tasks)
-
-    return results
