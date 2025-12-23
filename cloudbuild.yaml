@@ -1,8 +1,4 @@
 steps:
-  # Docker Build
-  # We use the arguments from your compose file:
-  # -f points to the specific Dockerfile
-  # . sets the context to the current directory
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build', 
@@ -10,3 +6,7 @@ steps:
       '-f', 'compose/fast-api/Dockerfile', 
       '.'
     ]
+
+# 👇 ADD THIS SECTION AT THE END
+options:
+  logging: CLOUD_LOGGING_ONLY
