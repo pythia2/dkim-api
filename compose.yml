@@ -8,6 +8,4 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      # Maps your local project folder to the container
-      # This allows for hot-reloading if you enable it
       - ./project:/code

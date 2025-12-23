@@ -1,0 +1,12 @@
+steps:
+  # Docker Build
+  # We use the arguments from your compose file:
+  # -f points to the specific Dockerfile
+  # . sets the context to the current directory
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build', 
+      '-t', 'gcr.io/$PROJECT_ID/dkim-api', 
+      '-f', 'compose/fast-api/Dockerfile', 
+      '.'
+    ]
